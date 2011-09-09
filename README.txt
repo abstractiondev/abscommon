@@ -6,3 +6,6 @@ Abstraction Common Submodule
 
 Usage:
 git submodule add git@github.com:abstractiondev/abscommon Demos/ProjectStatusReportingDemo/Abstractions/abscommon
+
+Updating submodules:
+git submodule foreach git pull
