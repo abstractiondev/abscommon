@@ -7,5 +7,20 @@ Abstraction Common Submodule
 Usage:
 git submodule add git@github.com:abstractiondev/abscommon Demos/ProjectStatusReportingDemo/Abstractions/abscommon
 
+git submodule update --init
+
 Updating submodules:
 git submodule foreach git pull
+
+Modifying submodules:
+
+
+cd abscommon
+git checkout master
+<Do your editing>
+git commit --all -m "Lots of fixes"
+cd ..
+
+git add abscommon
+git commit -m "Bumped up the revision of abscommon"
+git push origin master
