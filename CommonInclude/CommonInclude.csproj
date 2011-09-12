@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Common\CommonCodeblocks.ttinclude" />
     <None Include="Common\XSDToIncludeGenerator.ttinclude" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
