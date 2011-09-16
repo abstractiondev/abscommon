@@ -21,7 +21,7 @@
 		}
 	}
 	
-	void TransformGenerator(Action rootLevelGenerator)
+	void TransformGenerator<AbstractionType>(Action rootLevelGenerator, string sharedSingleFileExtension)
 	{
 		// Abstraction(s) that are supposed to be shared must be shared by default.
 		// This is simply because any change to "shared" makes it modified compared to the shared version.
@@ -48,7 +48,8 @@
 			
 			foreach(string xmlFileName in xmlFileNames)
 			{
-				CurrentAbstraction = LoadXml<PowerPointAddInAbstraction>(xmlFileName);
+				AbstractionType current = LoadXml<AbstractionType>(xmlFileName);
+				SetCurrentAbstraction(current);
 				rootLevelGenerator();
 			}
 		} 
@@ -57,9 +58,9 @@
 			rootLevelGenerator();
 		}
 		
-		if(IsLocal == false)
+		if(ShareLevel == AbstractionOptions.GeneralTypeShareLevel.Shared)
 		{
-			WriteContentToSingleOutput(Host.TemplateFile, ".designer.cs");
+			WriteContentToSingleOutput(Host.TemplateFile, sharedSingleFileExtension);
 		}
 	}
 	
