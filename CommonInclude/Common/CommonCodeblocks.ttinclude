@@ -1,4 +1,5 @@
-﻿<#+ 
+﻿<#@ include file="AbstractionOptions_namespace.ttinclude" #>
+<#+ 
 	enum AbstractionShareLevel
 	{
 		Local,
@@ -6,14 +7,62 @@
 		Modular,
 	}
 	
-	AbstractionShareLevel ShareLevel = AbstractionShareLevel.Local;
-	
 	bool IsLocal
 	{
 		get {
-			return ShareLevel == AbstractionShareLevel.Local;
+			return ShareLevel == AbstractionOptions.GeneralTypeShareLevel.Local;
 		}
 	}
+	
+	AbstractionOptions.AbstractionOptionsType CurrentOptions;
+	AbstractionOptions.GeneralTypeShareLevel ShareLevel {
+		get {
+			return CurrentOptions.General.shareLevel;
+		}
+	}
+	
+	void TransformGenerator(Action rootLevelGenerator)
+	{
+		// Abstraction(s) that are supposed to be shared must be shared by default.
+		// This is simply because any change to "shared" makes it modified compared to the shared version.
+		// Thus making abstraction "local" allows also making the changes that make it behave like "local".
+		// To make the abstraction "local" make following changes:
+		// 1. Modify the output - directive right on top of the file (2nd line) from "?" to ".designer.cs"
+		// 2. Set the AbstractionShareLevel below to Shared 
+		// 3. After the changes, the abstraction starts to generate its output right below the template:
+		// - Change the .cs file properties so that it doesn't compile in the abstraction-project
+		// - Link the output .cs file to appropriate projects (to replace the links from AbstractionContent/Out directory)
+		// 4. If necessary, copy over and alter the include-files specified for common includes
+		
+		// ShareLevel = AbstractionShareLevel.Shared;
+		string templateDirectoryPath = Path.GetDirectoryName(Host.TemplateFile);
+		DirectoryInfo dirInfo = new DirectoryInfo(templateDirectoryPath);
+		dirInfo = dirInfo.Parent;
+		string optionsFile = Path.Combine(dirInfo.FullName, "Options.xml");
+		CurrentOptions = LoadXml<AbstractionOptions.AbstractionOptionsType>(optionsFile);
+
+		if(ShareLevel != AbstractionOptions.GeneralTypeShareLevel.Modular)
+		{
+			string directoryName = GetContentDirectoryFromTemplateFullPath(Host.TemplateFile, IsLocal == false);
+			string[] xmlFileNames = Directory.GetFiles(directoryName, "*.xml");
+			
+			foreach(string xmlFileName in xmlFileNames)
+			{
+				CurrentAbstraction = LoadXml<PowerPointAddInAbstraction>(xmlFileName);
+				rootLevelGenerator();
+			}
+		} 
+		else
+		{
+			rootLevelGenerator();
+		}
+		
+		if(IsLocal == false)
+		{
+			WriteContentToSingleOutput(Host.TemplateFile, ".designer.cs");
+		}
+	}
+	
 	
 	string GetContentDirectoryFromTemplateFullPath(string templateFullPath, bool isShared)
 	{

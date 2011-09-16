@@ -42,9 +42,23 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common\AbstractionOptions_namespace.ttinclude" />
     <None Include="Common\CommonCodeblocks.ttinclude" />
+    <None Include="Common\AbstractionOptions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AbstractionOptions.xsd</DependentUpon>
+    </None>
+    <None Include="Common\AbstractionOptions.xsd">
+      <SubType>Designer</SubType>
+      <Generator>T4ScriptFileGenerator</Generator>
+      <LastGenOutput>AbstractionOptions.tt</LastGenOutput>
+    </None>
     <None Include="Common\XSDToIncludeGenerator.ttinclude" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
