@@ -1,4 +1,50 @@
 ﻿<#+ 
+	enum AbstractionShareLevel
+	{
+		Local,
+		Shared,
+		Modular,
+	}
+	
+	AbstractionShareLevel ShareLevel = AbstractionShareLevel.Local;
+	
+	bool IsLocal
+	{
+		get {
+			return ShareLevel == AbstractionShareLevel.Local;
+		}
+	}
+	
+	string GetContentDirectoryFromTemplateFullPath(string templateFullPath, bool isShared)
+	{
+		string templateDirectoryName = Path.GetDirectoryName(templateFullPath);
+		string contentDir =  isShared ? @"In\Content_v1_0" : "Content_v1_0";
+		string directoryName = Path.Combine(templateDirectoryName, contentDir);
+		if(isShared) {
+			System.IO.DirectoryInfo absRootDirInfo = new System.IO.DirectoryInfo(templateDirectoryName);
+			absRootDirInfo = absRootDirInfo.Parent;
+			string abstractionName = absRootDirInfo.Name;
+			directoryName = directoryName.Replace(abstractionName, "AbstractionContent");
+		}
+		return directoryName;
+	}
+	
+	void WriteContentToSingleOutput(string templateFullPath, string extension)
+	{
+		string templateDirectoryName = Path.GetDirectoryName(templateFullPath);
+		string contentDir = "Out";
+		string directoryName = Path.Combine(templateDirectoryName, contentDir);
+		string contentFileName = System.IO.Path.GetFileNameWithoutExtension(templateFullPath) + extension;
+		System.IO.DirectoryInfo absRootDirInfo = new System.IO.DirectoryInfo(templateDirectoryName);
+		absRootDirInfo = absRootDirInfo.Parent;
+		string abstractionName = absRootDirInfo.Name;
+		directoryName = directoryName.Replace(abstractionName, "AbstractionContent");
+		string contentFullName = Path.Combine(directoryName, contentFileName);
+		string contentData = this.GenerationEnvironment.ToString();
+		this.GenerationEnvironment.Clear();
+		File.WriteAllText(contentFullName, contentData);
+	}
+
 	T LoadXml<T>(string xmlFileName) {
 		using(FileStream fStream = File.OpenRead(xmlFileName)) {
 			XmlSerializer serializer = new XmlSerializer(typeof(T));
