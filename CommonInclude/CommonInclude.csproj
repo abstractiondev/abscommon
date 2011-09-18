@@ -60,6 +60,10 @@
       <LastGenOutput>AbstractionOptions.tt</LastGenOutput>
     </None>
     <None Include="Common\XSDToIncludeGenerator.ttinclude" />
+    <None Include="Template\ExampleLocalAndShared_v1_0.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Template\Options.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
