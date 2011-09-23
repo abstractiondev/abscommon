@@ -35,6 +35,7 @@
 		// 4. If necessary, copy over and alter the include-files specified for common includes
 		
 		// ShareLevel = AbstractionShareLevel.Shared;
+		
 		string templateDirectoryPath = Path.GetDirectoryName(Host.TemplateFile);
 		DirectoryInfo dirInfo = new DirectoryInfo(templateDirectoryPath);
 		dirInfo = dirInfo.Parent;
