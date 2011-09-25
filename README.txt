@@ -4,7 +4,11 @@ Abstraction Common Submodule
 - Visual Studio 2010 specific projects for now
 - First submodule tests
 
-Usage:
+Usage (for read-only cloning):
+git submodule add git://github.com/abstractiondev/abscommon Demos/ProjectStatusReportingDemo/Abstractions/abscommon
+
+
+Usage (for updating repositories):
 git submodule add git@github.com:abstractiondev/abscommon Demos/ProjectStatusReportingDemo/Abstractions/abscommon
 
 Updating submodules:
