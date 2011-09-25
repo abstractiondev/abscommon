@@ -41,10 +41,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Template\Transformer.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common\AbstractionOptions_namespace.ttinclude" />
+    <None Include="Common\CommonCodeblocks.ttinclude" />
+    <None Include="Common\AbstractionOptions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AbstractionOptions.xsd</DependentUpon>
+    </None>
+    <None Include="Common\AbstractionOptions.xsd">
+      <SubType>Designer</SubType>
+      <Generator>T4ScriptFileGenerator</Generator>
+      <LastGenOutput>AbstractionOptions.tt</LastGenOutput>
+    </None>
     <None Include="Common\XSDToIncludeGenerator.ttinclude" />
+    <None Include="Template\ExampleLocalAndShared_v1_0.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Template\Options.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
