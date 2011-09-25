@@ -7,6 +7,9 @@ Abstraction Common Submodule
 Usage (for read-only cloning):
 git submodule add git://github.com/abstractiondev/abscommon Demos/ProjectStatusReportingDemo/Abstractions/abscommon
 
+Updating all the read-only submodules:
+git submodule foreach git pull origin master
+
 
 Usage (for updating repositories):
 git submodule add git@github.com:abstractiondev/abscommon Demos/ProjectStatusReportingDemo/Abstractions/abscommon
