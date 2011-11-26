@@ -4,6 +4,16 @@ Abstraction Common Submodule
 - Visual Studio 2010 specific projects for now
 - First submodule tests
 
+Usage:
+Copy the RootProjectSupportCommand-directory contents to the main repository root
+- Make folder "Abstractions" below the main root project
+- Execute either "gitaddabstractionbase.cmd" or with SSH depending if you want authorized-modified version or not
+(Note: for base only applies to people with valid checkin rights to the base)
+- Execute "unzipdefaultcontent.cmd"; requires unzip command in path that recognizes -d option for extraction
+
+
+OLD INFORMATION TO BE CHECKED FOR VALIDITY:
+
 Usage (for read-only cloning):
 git submodule add git://github.com/abstractiondev/abscommon Demos/ProjectStatusReportingDemo/Abstractions/abscommon
 
