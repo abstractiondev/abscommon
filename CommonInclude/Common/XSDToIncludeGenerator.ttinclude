@@ -1,5 +1,6 @@
 ﻿<#+ 
-	void GenerateXSDSerializer(string templateFile, string outputDirectory, bool generateNamespace, bool generateT4Tags)
+	void GenerateXSDSerializer(string templateFile, string outputDirectory, bool generateNamespace, bool generateT4Tags,
+		bool generateToTemplateOutput)
 	{
             string xsdExeFileName = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) +
                                  @"\Microsoft SDKs\Windows\v7.0A\bin\xsd.exe";
@@ -36,8 +37,13 @@
 				outputFile = outputttinclude;
 			} else
 				outputFile = outputCsCode;
-			WriteLog("Writing to file: " + outputFile);
-			System.IO.File.WriteAllText(outputFile, content);
+			if(generateToTemplateOutput) {
+				this.GenerationEnvironment.Clear();
+				this.GenerationEnvironment.Append(content);
+			} else {
+				WriteLog("Writing to file: " + outputFile);
+				System.IO.File.WriteAllText(outputFile, content);
+			}
 	}
 	
 	string GetXSDFile(string templateFile)
@@ -47,8 +53,9 @@
 		return xsdFile;
 	}
 
-	void GenerateTTInclude(string templateFile, string outputDirectory, bool generateNamespace = false, bool generateT4Tags = true) {
-		GenerateXSDSerializer(templateFile, outputDirectory, generateNamespace, generateT4Tags);
+	void GenerateTTInclude(string templateFile, string outputDirectory, bool generateNamespace = false, bool generateT4Tags = true,
+		bool generateToTemplateOutput = false) {
+		GenerateXSDSerializer(templateFile, outputDirectory, generateNamespace, generateT4Tags, generateToTemplateOutput);
 	}
 	
 	void GenerateTTInclude(string templateFile, bool generateNamespace = false) {
